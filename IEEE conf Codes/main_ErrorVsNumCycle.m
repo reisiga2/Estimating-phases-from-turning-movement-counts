@@ -1,0 +1,49 @@
+% this script is to generate some results from the synthetic data.
+
+clear all;
+close all;
+
+PD1=DiscreteD([1, 1, 1, 1, 1, 1, 1 , 1, 1, 25, 50, 16]);
+PD2=DiscreteD([1, 1, 1, 1, 1, 1, 1 , 1, 1, 1, 60, 30]);
+PD3=DiscreteD([1, 1, 1, 1, 1, 1, 1 , 1, 1, 89 , 1 ,1]);
+PD4=DiscreteD([1, 40, 1, 1, 1, 1, 40 , 11, 1, 1, 1 ,1]);
+PD5=DiscreteD([10, 35, 1, 1, 1, 1, 35 , 12, 1, 1, 1 ,1]);
+PD6=DiscreteD([30, 60, 1, 1, 1, 1, 1 , 1, 1, 1, 1 ,1]);
+PD7=DiscreteD([89, 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1 ,1]);
+
+P=[PD1,PD2,PD3,PD4,PD5,PD6,PD7]; % vector with all possible outcome probabilities.
+
+    numCycle=2:1:30;
+    
+    phases=[1,5];
+    emissionProbsGenData =[0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 25 58.1 16;
+                           14.2 35 0.1 0.1 0.1 0.1 35 15 0.1 0.1 0.1 0.1];%with this probabilities 
+                       % data being generated.
+                       
+    minManeuver =[5,5];
+    maxManeuver =[27,27]; 
+    numDataSets=5; % change this to get results with different number of data sets.
+    iteration =5;% number of time the error calculated. We average over all the values to get one value. 
+    initial_HMMemission =P;
+    aij_1=0.01; % 
+    aij_2=0.1429;% gives uniform transition probs
+    totalnumPhases=7;
+    
+    
+    [averageError1, averagePercError1] = CalcAverError_synthData...
+    (phases, numCycle,emissionProbsGenData, minManeuver, minManeuver, iteration,...
+    initial_HMMemission, aij_1, totalnumPhases, numDataSets); % finds the percentage of error when aij is large
+
+    [averageError2, averagePercError2] = CalcAverError_synthData...
+    (phases, numCycle,emissionProbsGenData, minManeuver, maxManeuver, iteration,...
+    initial_HMMemission, aij_2, totalnumPhases, numDataSets); % finds the percentage of error when aijs are all equal.  
+
+
+    figure   
+    plot( numCycle,averagePercError1,'--r','LineWidth',2 ); 
+    hold on
+    plot( numCycle,averagePercError2, 'LineWidth',2); 
+    
+    legend('dweling prob = 0.94',' Uniformly distributed initial transition probs')
+    
+
