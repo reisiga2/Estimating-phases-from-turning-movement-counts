@@ -2,7 +2,7 @@ IEEEConferencePaper
 ===================
 
 These codes has been written to estimate traffic signal phases from maneuver counts. We use Hidden Markov models to 
-infere a phase sequence given a training sequence of maneuvers. 
+infer the phase sequence given a training sequence of maneuvers. 
 For these codes to run one need HMM clasess written by Arne Leijon  at KTH university in Sweden. They will publish their code soon but 
 to access their code one can send an email and request.
 
